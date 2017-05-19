@@ -1,6 +1,6 @@
 # URL Generator
 
-![Unit Tests](https://travis-ci.org/JonWatkins/url-generator.svg?branch=master)
+[![Build Status](https://travis-ci.org/JonWatkins/url-generator.svg?branch=master)](https://travis-ci.org/JonWatkins/url-generator)
 
 A simple JavaScript url generator, takes an array of parameters and returns all possible permutations of the url as an array
 
