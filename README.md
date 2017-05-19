@@ -1,5 +1,7 @@
 ### URL Generator
 
+![Unit Tests](https://travis-ci.org/JonWatkins/url-generator.svg?branch=master)
+
 A simple JavaScript url generator, takes an array of parameters and returns all possible permutations of the url as an array
 
 ## Installation
