@@ -2,6 +2,7 @@
   "name": "url-generator",
   "version": "1.0.0",
   "main": "index.js",
+  "description": "A simple JavaScript url generator, takes an array of parameters and returns all possible permutations of the url as an array",
   "author": "Jon Watkins <jonwatkins86@gmail.com>",
   "license": "MIT",
   "repository": {},
@@ -37,13 +38,5 @@
     "sinon": "^2.2.0",
     "sinon-chai": "^2.10.0",
     "webpack": "^2.5.1"
-  },
-  "files": [
-    "AUTHORS",
-    "LICENSE",
-    "README.md",
-    "dist/",
-    "src/",
-    "test/"
-  ]
+  }
 }
