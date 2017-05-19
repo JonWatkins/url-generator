@@ -1,5 +1,6 @@
 {
   "name": "url-generator",
+  "version": "1.0.1",
   "description": "A simple JavaScript url generator, takes an array of parameters and returns all possible permutations of the url as an array",
   "main": "dist/bundle.js",
   "authors": [
