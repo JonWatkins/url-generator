@@ -22,20 +22,23 @@ bower install url-generator --save
 The url generator takes an array of parameters with a key and value, the value can be either an array or a string
 
 ```JavaScript
-create('http://www.google.com', [
-  {
-    key: 'utm_campaign',
-    value: [
-      'google',
-      'twitter',
-      'facebook'
-    ]
-  },
-  {
-    key: 'utm_term',
-    value: 'something'
-  }
-]).then(result => {
+create({
+  url: 'http://www.google.com', 
+  params: [
+    {
+      key: 'utm_campaign',
+      value: [
+        'google',
+        'twitter',
+        'facebook'
+      ]
+    },
+    {
+      key: 'utm_term',
+      value: 'something'
+    }
+  ]
+}).then(result => {
   console.log(result)
 }).catch(error => {
   console.log(error)
