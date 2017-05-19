@@ -22,7 +22,7 @@ bower install url-generator --save
 The url generator takes an array of parameters with a key and value, the value can be either an array or a string
 
 ```JavaScript
-create({
+urlGenerator.create({
   url: 'http://www.google.com', 
   params: [
     {
