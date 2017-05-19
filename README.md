@@ -22,7 +22,7 @@ bower install url-generator --save
 The url generator takes an array of parameters with a key and value, the value can be either an array or a string
 
 ```JavaScript
-const urls = create('http://www.google.com', [
+create('http://www.google.com', [
   {
     key: 'utm_campaign',
     value: [
@@ -35,5 +35,9 @@ const urls = create('http://www.google.com', [
     key: 'utm_term',
     value: 'something'
   }
-])
+]).then(result => {
+  console.log(result)
+}).catch(error => {
+  console.log(error)
+})
 ```

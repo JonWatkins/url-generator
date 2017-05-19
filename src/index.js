@@ -39,16 +39,23 @@ export function cartesianValues(arr) {
  *
  * useage:
  *
- *  var urls = create('http://www.google.com', [
- *    {
- *      key: 'utm_campaign',
- *      value: [
- *        'google',
- *        'facebook',
- *        'twitter'
- *      ]
- *    }
- *  ])
+ *  create({
+ *    url: 'http://www.google.com',
+ *    params: [
+ *      {
+ *        key: 'utm_campaign',
+ *        value: [
+ *          'google',
+ *          'facebook',
+ *          'twitter'
+ *        ]
+ *      }
+ *    ]
+ *  }).then(result => {
+ *    console.log(result)
+ *  }).catch(error => {
+ *    console.log(error)
+ *  })
  *
  *  // urls[
  *  //  'http://www.google.com?utm_campaign=facebook',
@@ -57,13 +64,13 @@ export function cartesianValues(arr) {
  *  // ]
  *
  * @export
- * @param {String} base - The base URL to add the parameters to
- * @param {Array} arr - The array of parameters the should be used
+ * @param {Object} options - The options for the url to build
  * @return {Array} - The unique list of generated URL's
  */
-export function create(base, arr) {
-  return [...cartesianValues(mapValues(arr))].map(i => {
-    return `${base}${i.replace('&', '?')}`
+export async function create(options) {
+  const {url, params} = options
+  return [...cartesianValues(mapValues(params))].map(i => {
+    return `${url}${i.replace('&', '?')}`
   })
 }
 

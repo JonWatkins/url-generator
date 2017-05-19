@@ -78,11 +78,17 @@ describe('URL Generator', () => {
       expect(typeof create).to.equal('function')
     })
 
-    it('should be able to create a list of unique urls', () => {
-      const result = create(baseUrl, arrayVal)
-      expect(result[0]).to.equal(`${baseUrl}?utm_campaign=google`)
-      expect(result[1]).to.equal(`${baseUrl}?utm_campaign=twitter`)
-      expect(result[2]).to.equal(`${baseUrl}?utm_campaign=facebook`)
+    it('should be able to create a list of unique urls', next => {
+      create({
+        url: baseUrl,
+        params: arrayVal
+      })
+      .then(result => {
+        expect(result[0]).to.equal(`${baseUrl}?utm_campaign=google`)
+        expect(result[1]).to.equal(`${baseUrl}?utm_campaign=twitter`)
+        expect(result[2]).to.equal(`${baseUrl}?utm_campaign=facebook`)
+        next()
+      })
     })
   })
 })
