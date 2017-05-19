@@ -4,7 +4,7 @@
 
 A simple JavaScript url generator, takes an array of parameters and returns all possible permutations of the url as an array
 
-# Installation
+## Installation
 
 For use with node you can either use yarn or npm
 
@@ -17,9 +17,9 @@ Or for use in the browser you can intsall from bower
 bower install url-generator --save
 ```
 
-# Useage
+## Useage
 
-## create
+### create
 
 ```JavaScript
 urlGenerator.create({
@@ -45,7 +45,7 @@ urlGenerator.create({
 })
 ```
 
-## search
+### search
 
 ```JavaScript
 urlGenerator.search([
@@ -68,13 +68,13 @@ urlGenerator.search([
 })
 ```
 
-## slug
+### slug
 
 ```JavaScript
 urlGenerator.slug('Hello World')
 ```
 
-## parseUrl
+### parseUrl
 
 ```JavaScript
 urlGenerator.parseUrl('http://www.google.com')
