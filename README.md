@@ -1,10 +1,10 @@
-### URL Generator
+# URL Generator
 
 ![Unit Tests](https://travis-ci.org/JonWatkins/url-generator.svg?branch=master)
 
 A simple JavaScript url generator, takes an array of parameters and returns all possible permutations of the url as an array
 
-## Installation
+# Installation
 
 For use with node you can either use yarn or npm
 
@@ -17,9 +17,9 @@ Or for use in the browser you can intsall from bower
 bower install url-generator --save
 ```
 
-## Useage
+# Useage
 
-The url generator takes an array of parameters with a key and value, the value can be either an array or a string
+## create
 
 ```JavaScript
 urlGenerator.create({
@@ -43,4 +43,39 @@ urlGenerator.create({
 }).catch(error => {
   console.log(error)
 })
+```
+
+## search
+
+```JavaScript
+urlGenerator.search([
+  {
+    key: 'utm_campaign',
+    value: [
+      'google',
+      'twitter',
+      'facebook'
+    ]
+  },
+  {
+    key: 'utm_term',
+    value: 'something'
+  }
+]).then(result => {
+  console.log(result)
+}).catch(error => {
+  console.log(error)
+})
+```
+
+## slug
+
+```JavaScript
+urlGenerator.slug('Hello World')
+```
+
+## parseUrl
+
+```JavaScript
+urlGenerator.parseUrl('http://www.google.com')
 ```

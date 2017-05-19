@@ -1,6 +1,47 @@
 'use strict'
 
 /**
+ * Options for the url parser method
+ */
+const parseOptions = {
+  // eslint-disable-next-line
+  regex: /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/,
+  query: /(?:^|&)([^&=]*)=?([^&]*)/g,
+  key: [
+    'source', 'protocol', 'authority', 'userInfo', 'user', 'password', 'host',
+    'port', 'relative', 'path', 'directory', 'file', 'query', 'anchor', 'hash'
+  ]
+}
+
+/**
+ * Parses into an object of differnt url parts
+ *
+ * useage:
+ *  const url = parseUrl('http://www.google.com')
+ *  console.log(url.host)
+ *  console.log(url.protocol)
+ *
+ *  // www.google.com
+ *  // http
+ *
+ * @export
+ * @param {String} url
+ * @return {Object}
+ */
+export function parseUrl(url) {
+  const key = parseOptions.key
+  const match = parseOptions.regex.exec(url)
+  let uri = {}
+  let i = 14
+  while (i--) uri[key[i]] = match[i] || ''
+  uri.queryKey = {}
+  uri[key[12]].replace(parseOptions.query, ($0, $1, $2) => {
+    if ($1) uri.queryKey[$1] = $2
+  })
+  return uri
+}
+
+/**
  * Returns a multidimensional array containing all url parameters with both
  * the key and value ready to add to a url
  *
@@ -11,7 +52,7 @@
 export function mapValues(arr) {
   return arr.map(param => {
     const res = Array.isArray(param.value) ? param.value : [param.value]
-    return res.map(value => `&${param.key}=${value}`)
+    return res.map(value => `&${param.key}=${encodeURIComponent(value)}`)
   })
 }
 
@@ -68,14 +109,144 @@ export function cartesianValues(arr) {
  * @return {Array} - The unique list of generated URL's
  */
 export async function create(options) {
-  const {url, params} = options
+  const {url, params, slug} = options
+  const urlDetails = parseUrl(url)
+  unshiftParams(params, urlDetails.queryKey)
   return [...cartesianValues(mapValues(params))].map(i => {
-    return `${url}${i.replace('&', '?')}`
+    return makeUrl(i.replace('&', '?'), urlDetails, slug)
   })
 }
 
+/**
+ * Creates unique search strings for all permutations of the given parameters
+ *
+ * useage:
+ *
+ *  search([
+ *    {
+ *      key: 'utm_campaign',
+ *      value: [
+ *        'google',
+ *        'facebook',
+ *        'twitter'
+ *      ]
+ *    }
+ *  ]).then(result => {
+ *    console.log(result)
+ *  }).catch(error => {
+ *    console.log(error)
+ *  })
+ *
+ *  // urls[
+ *  //  '?utm_campaign=facebook',
+ *  //  '?utm_campaign=facebook',
+ *  //  '?utm_campaign=facebook'
+ *  // ]
+ *
+ * @export
+ * @param {Object} options - The options for the url to build
+ * @return {Array} - The unique list of generated URL's
+ */
+export async function search(params) {
+  return [...cartesianValues(mapValues(params))].map(i => {
+    return i.replace('&', '?')
+  })
+}
+
+/**
+ * Creates a valid slug value for a url from a string
+ *
+ * useage:
+ *  console.log(urlGenerator.slug('Hello World'))
+ *
+ *  // 'hello-world'
+ *
+ * @export
+ * @param {String} value - The string to slugify
+ * @return {String}
+ */
+export function slug(value) {
+  return value.toString().toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^\w\-]+/g, '')
+    .replace(/\-\-+/g, '-')
+    .replace(/^-+/, '')
+    .replace(/-+$/, '')
+}
+
+/**
+ * Makes a url from the given search string the url object and an
+ * optional slug
+ *
+ * @param {String} search
+ * @param {Object} url
+ * @param {String} str
+ * @return {String}
+ */
+function makeUrl(search, opts, str) {
+  const {protocol, host, path, source, port} = opts
+  let parts = []
+  parts.push(protocol)
+  parts.push('://')
+  parts.push(host)
+  parts.push(port ? ':' + port : '')
+  parts.push(makeSlug(path, str))
+  parts.push(search)
+  parts.push(getHash(source))
+  return parts.join('')
+}
+
+/**
+ * Makes a slug from the given path and slug value
+ *
+ * @param {String} path
+ * @param {String} str
+ * @return {String}
+ */
+function makeSlug(path, str) {
+  let res = ''
+  if (path && path.length > 0) res += path
+  if (str && str.length > 0) res += '/' + slug(str)
+  return res.length > 0 ? res : res
+}
+
+/**
+ * Returns the hash fragment for a url if it exists
+ *
+ * @param {String} url
+ * @return {String}
+ */
+function getHash(url) {
+  const idx = url.indexOf('#')
+  let res = ''
+  if (idx !== -1) res += url.substring(idx)
+  return res
+}
+
+/**
+ * Unshifts the params array adding in the query parameters taken
+ * from the base url
+ *
+ * @param {Array} params
+ * @param {Object} query
+ */
+function unshiftParams(params, query) {
+  for (let key in query) {
+    /* istanbul ignore else */
+    if (query.hasOwnProperty(key)) {
+      params.unshift({key, value: [query[key]]})
+    }
+  }
+}
+
+/**
+ * Expose the public api
+ */
 export default {
   mapValues,
   cartesianValues,
-  create
+  create,
+  search,
+  slug,
+  parseUrl
 }
