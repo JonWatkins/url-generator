@@ -1,6 +1,6 @@
 'use strict'
 
-import {mapValues, cartesianValues, create, search, slug} from '../../src/index'
+import {mapValues, cartesianValues, create, search, slug, parseUrl} from '../../src/index'
 
 describe('URL Generator', () => {
   let baseUrl
@@ -195,6 +195,21 @@ describe('URL Generator', () => {
       .catch(error => {
         next(error)
       })
+    })
+  })
+
+  describe('parseUrl', function () {
+    it('should be a function', () => {
+      expect(typeof parseUrl).to.equal('function')
+    })
+
+    it('should be able to parse a url', () => {
+      const result = parseUrl('http://www.google.com/home?test=true')
+      expect(result.protocol).to.equal('http')
+      expect(result.host).to.equal('www.google.com')
+      expect(result.path).to.equal('/home')
+      expect(result.query).to.equal('test=true')
+      expect(result.queryKey.test).to.equal('true')
     })
   })
 })
