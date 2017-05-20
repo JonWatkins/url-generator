@@ -1,7 +1,7 @@
 {
   "name": "url-generator",
   "version": "1.0.4",
-  "main": "index.js",
+  "main": "dist/bundle.js",
   "description": "A simple JavaScript url generator, takes an array of parameters and returns all possible permutations of the url as an array",
   "author": "Jon Watkins <jonwatkins86@gmail.com>",
   "license": "MIT",
