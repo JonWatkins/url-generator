@@ -111,6 +111,21 @@ describe('URL Generator', () => {
       })
     })
 
+    it('should be able to handle an empty parameters array', next => {
+      create({
+        url: baseUrl,
+        params: []
+      })
+      .then(result => {
+        expect(result.length).to.equal(1)
+        expect(result[0]).to.equal(`${baseUrl}`)
+        next()
+      })
+      .catch(error => {
+        next(error)
+      })
+    })
+
     it('should be able to cope with a url with existing parameters', next => {
       create({
         url: baseUrl + '?test=true',
