@@ -5,12 +5,21 @@
   "description": "A simple JavaScript url generator, takes an array of parameters and returns all possible permutations of the url as an array",
   "author": "Jon Watkins <jonwatkins86@gmail.com>",
   "license": "MIT",
-  "repository": {},
+  "repository": {
+    "url": "https://github.com/JonWatkins/url-generator",
+    "type": "git"
+  },
   "scripts": {
     "build": "NODE_ENV=production node_modules/.bin/webpack --progress --colors",
     "test": "node_modules/.bin/cross-env BABEL_ENV=test karma start karma.conf.js --single-run",
     "lint": "eslint --ext .js src test"
   },
+  "keywords": [
+    "url",
+    "generator",
+    "nodejs",
+    "javascript"
+  ],
   "devDependencies": {
     "babel-core": "^6.24.1",
     "babel-eslint": "^7.2.3",
