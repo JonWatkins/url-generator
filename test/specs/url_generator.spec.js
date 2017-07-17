@@ -66,6 +66,13 @@ describe('URL Generator', () => {
       const result = mapValues(stringVal)
       expect(result[0][0]).to.equal('&utm_campaign=Hello%20World')
     })
+
+    it('should be able to skip character encoding if true', () => {
+      stringVal[0].skipEncoding = true
+      stringVal[0].value = '{creativeID}'
+      const result = mapValues(stringVal)
+      expect(result[0][0]).to.equal('&utm_campaign={creativeID}')
+    })
   })
 
   describe('cartesianValues', () => {

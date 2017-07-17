@@ -52,7 +52,10 @@ export function parseUrl(url) {
 export function mapValues(arr) {
   return arr.map(param => {
     const res = Array.isArray(param.value) ? param.value : [param.value]
-    return res.map(value => `&${param.key}=${encodeURIComponent(value)}`)
+    return res.map(value => {
+      let val = param.skipEncoding ? value : encodeURIComponent(value)
+      return `&${param.key}=${val}`
+    })
   })
 }
 
