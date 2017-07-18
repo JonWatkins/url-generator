@@ -73,6 +73,24 @@ describe('URL Generator', () => {
       const result = mapValues(stringVal)
       expect(result[0][0]).to.equal('&utm_campaign={creativeID}')
     })
+
+    it('should be able to deal with multiple values with mixed url encoding options', function () {
+      arrayVal = [
+        {
+          key: 'utm_campaign',
+          value: [
+            {value: '{google}', skipEncoding: true},
+            {value: '{twitter}', skipEncoding: false},
+            {value: '{facebook}'}
+          ]
+        }
+      ]
+
+      const result = mapValues(arrayVal)
+      expect(result[0][0]).to.equal('&utm_campaign={google}')
+      expect(result[0][1]).to.equal('&utm_campaign=%7Btwitter%7D')
+      expect(result[0][2]).to.equal('&utm_campaign=%7Bfacebook%7D')
+    })
   })
 
   describe('cartesianValues', () => {

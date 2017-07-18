@@ -53,10 +53,34 @@ export function mapValues(arr) {
   return arr.map(param => {
     const res = Array.isArray(param.value) ? param.value : [param.value]
     return res.map(value => {
-      let val = param.skipEncoding ? value : encodeURIComponent(value)
-      return `&${param.key}=${val}`
+      let {skip, val} = returnValues(value, param)
+      let v = skip ? val : encodeURIComponent(val)
+      return `&${param.key}=${v}`
     })
   })
+}
+
+/**
+ * Returns the value and the skip endcoding property
+ * 
+ * @export
+ * @param {String|Object} value
+ * @param {Object} param
+ * @return {Object}
+ */
+export function returnValues(value, param) {
+  let skip
+  let val
+
+  if (Object.prototype.toString.call(value) === '[object Object]') {
+    val = value.value
+    skip = value.skipEncoding
+  } else {
+    val = value
+    skip = param.skipEncoding
+  }
+
+  return {skip, val}
 }
 
 /**
