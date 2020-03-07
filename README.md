@@ -1,6 +1,11 @@
 # URL Generator
 
+[![licence](https://badgen.net/github/license/jonwatkins/url-generator)](https://github.com/JonWatkins/url-generator/blob/master/LICENCE)
+[![npm](https://img.shields.io/npm/v/url-generator.svg)](https://www.npmjs.com/package/url-generator)
+[![size](https://badgen.net/bundlephobia/minzip/url-generator)](https://www.npmjs.com/package/url-generator)
 [![Build Status](https://travis-ci.org/JonWatkins/url-generator.svg?branch=master)](https://travis-ci.org/JonWatkins/url-generator)
+[![MAINTAINABILITY](https://badgen.net/codeclimate/maintainability/JonWatkins/url-generator)](https://codeclimate.com/github/JonWatkins/url-generator)
+[![npm](https://img.shields.io/npm/dm/url-generator.svg)](https://www.npmjs.com/package/url-generator)
 
 A simple JavaScript url generator, takes an array of parameters and returns all possible permutations of the url as an array
 
